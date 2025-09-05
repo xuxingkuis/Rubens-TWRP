@@ -4,8 +4,14 @@ on init
     setprop sys.usb.configfs 1
     setprop sys.usb.controller "11201000.usb0"
     setprop sys.usb.ffs.aio_compat 1
-    export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw
+    export LD_LIBRARY_PATH /system/lib64:/vendor/lib64:/vendor/lib64/hw:/system_ext/lib64
     setprop crypto.ready 1
+    
+    # HyperOS 2.0.5 optimizations
+    setprop ro.miui.ui.version.code 14
+    setprop ro.miui.ui.version.name V140
+    setprop ro.product.mod_device rubens_global
+    setprop ro.vendor.perf.scroll_opt true
 
 on fs
     install_keyring
@@ -49,6 +55,7 @@ on post-fs
     start mtk.plpath.utils.link
 
 on post-fs-data
+    # Haptic feedback configuration
     chown system system /sys/bus/i2c/drivers/aw8697_haptic/2-005a/f0_save
     chown system system /sys/bus/i2c/drivers/aw8697_haptic/2-005a/osc_save
     chown system system /sys/bus/i2c/drivers/aw8697_haptic/3-005a/osc_save
@@ -66,6 +73,17 @@ on post-fs-data
     chown system system /sys/bus/i2c/drivers/awinic_haptic/1-005a/osc_save
     chown system system /sys/bus/i2c/drivers/awinic_haptic/1-005a/custom_wave
     chmod 0666  /sys/bus/i2c/drivers/awinic_haptic/1-005a/custom_wave
+    
+    # Touch screen permissions for HyperOS 2.0.5
+    chown system system /sys/class/touch/touch_dev/palm_sensor
+    chmod 0664 /sys/class/touch/touch_dev/palm_sensor
+    chown system system /sys/class/touch/touch_dev/wake_gesture
+    chmod 0664 /sys/class/touch/touch_dev/wake_gesture
+    
+    # Performance optimizations
+    write /sys/block/sda/queue/read_ahead_kb 512
+    write /sys/block/sdb/queue/read_ahead_kb 512
+    write /sys/block/sdc/queue/read_ahead_kb 512
 
 service mtk.plpath.utils.link /system/bin/mtk_plpath_utils
     class main

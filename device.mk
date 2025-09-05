@@ -17,8 +17,8 @@
 DEVICE_PATH := device/xiaomi/rubens
 
 # API
-PRODUCT_SHIPPING_API_LEVEL := 31
-PRODUCT_TARGET_VNDK_VERSION := 31
+PRODUCT_SHIPPING_API_LEVEL := 34
+PRODUCT_TARGET_VNDK_VERSION := 34
 
 # A/B
 AB_OTA_UPDATER := true
@@ -26,6 +26,7 @@ AB_OTA_PARTITIONS += \
     boot \
     dtbo \
     system \
+    system_ext \
     product \
     vendor \
     odm \
@@ -56,10 +57,18 @@ AB_OTA_POSTINSTALL_CONFIG += \
 
 # Additional Target Libraries
 TARGET_RECOVERY_DEVICE_MODULES += \
-    android.hardware.keymaster@4.1
+    android.hardware.keymaster@4.1 \
+    android.hardware.gatekeeper@1.0 \
+    libion \
+    vendor.display.config@1.0 \
+    vendor.display.config@2.0
 
 TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
-    $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.keymaster@4.1.so
+    $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.keymaster@4.1.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/android.hardware.gatekeeper@1.0.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libion.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/vendor.display.config@1.0.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/vendor.display.config@2.0.so
 
 # Bootctrl
 PRODUCT_PACKAGES += \

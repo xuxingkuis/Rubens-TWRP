@@ -32,6 +32,9 @@ $(call inherit-product, vendor/twrp/config/common.mk)
 # Device specific configs
 $(call inherit-product, device/xiaomi/rubens/device.mk)
 
+# HyperOS 2.0.5 specific configs
+$(call inherit-product, device/xiaomi/rubens/hyperos_config.mk)
+
 # Device identifier
 PRODUCT_DEVICE := rubens
 PRODUCT_NAME := twrp_rubens
@@ -39,5 +42,15 @@ PRODUCT_BRAND := Redmi
 PRODUCT_MODEL := 22041211AC
 PRODUCT_MANUFACTURER := Xiaomi
 
+# Build info for HyperOS 2.0.5
+PRODUCT_BUILD_PROP_OVERRIDES += \
+    PRODUCT_NAME=rubens \
+    PRIVATE_BUILD_DESC="rubens-user 14 UKQ1.230804.001 V14.0.5.0.UGBCNXM release-keys"
+
+BUILD_FINGERPRINT := Redmi/rubens/rubens:14/UKQ1.230804.001/V14.0.5.0.UGBCNXM:user/release-keys
+
 # Hide Reflash TWRP
-PRODUCT_PROPERTY_OVERRIDES += ro.twrp.vendor_boot=true
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.twrp.vendor_boot=true \
+    ro.build.version.release=14 \
+    ro.build.version.sdk=34
